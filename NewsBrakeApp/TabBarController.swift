@@ -9,7 +9,7 @@ import PureLayout
 
 class TabBarController: UITabBarController {
     
-    let homeVC = ViewController()
+    let homeVC = HomeViewController()
     let searchVC = SearchViewController()
     let favoritesVC = FavoritesViewController()
     let appearance = UITabBarAppearance()

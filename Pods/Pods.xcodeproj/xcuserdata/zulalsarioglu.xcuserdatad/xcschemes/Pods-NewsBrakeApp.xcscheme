@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F3C0DFB18204138D7B369255E2065DA1"
-               BuildableName = "libPods-NewsBrakeApp.a"
+               BuildableName = "Pods_NewsBrakeApp.framework"
                BlueprintName = "Pods-NewsBrakeApp"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

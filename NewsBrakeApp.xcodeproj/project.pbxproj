@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BCC6E060E2AF93DC86AAE8E1 /* libPods-NewsBrakeApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 769FB88AA5C0D011FDEFCA92 /* libPods-NewsBrakeApp.a */; };
+		238AD36157C67B72F0745BEB /* Pods_NewsBrakeApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1870E93CA2E95C7E38659C6 /* Pods_NewsBrakeApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2802427C30D7BBCFC556CDC5 /* Pods-NewsBrakeApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsBrakeApp.release.xcconfig"; path = "Target Support Files/Pods-NewsBrakeApp/Pods-NewsBrakeApp.release.xcconfig"; sourceTree = "<group>"; };
-		769FB88AA5C0D011FDEFCA92 /* libPods-NewsBrakeApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewsBrakeApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		980408533A5190A90DD773BB /* Pods-NewsBrakeApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsBrakeApp.debug.xcconfig"; path = "Target Support Files/Pods-NewsBrakeApp/Pods-NewsBrakeApp.debug.xcconfig"; sourceTree = "<group>"; };
 		BE610EB22DF9A9CB0090C05F /* NewsBrakeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsBrakeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1870E93CA2E95C7E38659C6 /* Pods_NewsBrakeApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewsBrakeApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -43,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCC6E060E2AF93DC86AAE8E1 /* libPods-NewsBrakeApp.a in Frameworks */,
+				238AD36157C67B72F0745BEB /* Pods_NewsBrakeApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +53,7 @@
 		1B0DBF3E4C80A7DD8FDD748A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				769FB88AA5C0D011FDEFCA92 /* libPods-NewsBrakeApp.a */,
+				E1870E93CA2E95C7E38659C6 /* Pods_NewsBrakeApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -96,6 +96,7 @@
 				BE610EAE2DF9A9CB0090C05F /* Sources */,
 				BE610EAF2DF9A9CB0090C05F /* Frameworks */,
 				BE610EB02DF9A9CB0090C05F /* Resources */,
+				AC9D7886E3D1195F40D1328D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -154,6 +155,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		AC9D7886E3D1195F40D1328D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NewsBrakeApp/Pods-NewsBrakeApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NewsBrakeApp/Pods-NewsBrakeApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewsBrakeApp/Pods-NewsBrakeApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C2B12112AE0221E55F66A708 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
