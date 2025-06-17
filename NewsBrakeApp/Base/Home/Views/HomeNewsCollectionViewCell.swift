@@ -30,7 +30,7 @@ class HomeNewsCollectionViewCell: UICollectionViewCell {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14,weight: .semibold)
         label.textColor = .white
-        label.text =  "bu bir haber başliğidir"
+        label.text =  "bu bir haber başlığıdır"
         label.numberOfLines = 0
         return label
     }()
@@ -40,7 +40,7 @@ class HomeNewsCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 14,weight: .semibold)
         label.textColor = .white
         label.numberOfLines = 0
-        label.text = "kaynak götüm"
+        label.text = "kaynak ZS"
         return label
     }()
     

@@ -6,6 +6,5 @@ target 'NewsBrakeApp' do
   use_modular_headers!
 
   pod 'PureLayout'
-  pod 'Moya'
-
+  pod 'Alamofire', '~> 5.8'
 end
