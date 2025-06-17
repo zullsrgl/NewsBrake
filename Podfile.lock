@@ -1,20 +1,24 @@
 PODS:
   - Alamofire (5.10.2)
+  - Kingfisher (7.12.0)
   - PureLayout (3.1.9)
 
 DEPENDENCIES:
   - Alamofire (~> 5.8)
+  - Kingfisher
   - PureLayout
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Kingfisher
     - PureLayout
 
 SPEC CHECKSUMS:
   Alamofire: 7193b3b92c74a07f85569e1a6c4f4237291e7496
+  Kingfisher: 53a10ea35051a436b5fb626ca2dd8f3144d755e9
   PureLayout: 5fb5e5429519627d60d079ccb1eaa7265ce7cf88
 
-PODFILE CHECKSUM: 65974330da925370fac21c9a539e25a076029fb5
+PODFILE CHECKSUM: 571fc3c1c352aca66a3a9b89c55257d1207a9802
 
 COCOAPODS: 1.16.2

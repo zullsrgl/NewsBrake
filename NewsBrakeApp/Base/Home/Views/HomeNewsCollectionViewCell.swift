@@ -12,15 +12,15 @@ class HomeNewsCollectionViewCell: UICollectionViewCell {
     let overlayView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-       // view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         return view
     }()
     
     let newsImage: UIImageView = {
         var view = UIImageView()
-        view.image = UIImage(named: "news")
         view.contentMode = .scaleAspectFill
         view.layer.cornerRadius = 10
+        view.backgroundColor = .lightGray
+        view.tintColor = .gray
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -30,7 +30,6 @@ class HomeNewsCollectionViewCell: UICollectionViewCell {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14,weight: .semibold)
         label.textColor = .white
-        label.text =  "bu bir haber başlığıdır"
         label.numberOfLines = 0
         return label
     }()
@@ -40,7 +39,6 @@ class HomeNewsCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 14,weight: .semibold)
         label.textColor = .white
         label.numberOfLines = 0
-        label.text = "kaynak ZS"
         return label
     }()
     
@@ -68,7 +66,5 @@ class HomeNewsCollectionViewCell: UICollectionViewCell {
         overlayView.addSubview(newsSource)
         newsSource.autoPinEdge(.left, to: .left, of: overlayView, withOffset: 8)
         newsSource.autoPinEdge(.bottom, to: .bottom, of: overlayView, withOffset: -8)
-    }
-
-    
+    } 
 }

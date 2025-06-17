@@ -7,4 +7,6 @@ target 'NewsBrakeApp' do
 
   pod 'PureLayout'
   pod 'Alamofire', '~> 5.8'
+  pod 'Kingfisher'
+
 end

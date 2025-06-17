@@ -4,9 +4,13 @@
 //
 //  Created by Zülal Sarıoğlu on 11.06.2025.
 //
-
 import PureLayout
+
 class HomeViewController: UIViewController {
+    
+    let viewModel = HomeViewModel()
+    let homeNewsColleciton = HomeNewsCollectionView()
+    var articles: [Article] = []
     
     let stackContainerView: UIStackView = {
         let stackView = UIStackView()
@@ -21,14 +25,16 @@ class HomeViewController: UIViewController {
         return stackView
     }()
     
-    let homeNewsColleciton = HomeNewsCollectionView()
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.title = "News Brake"
-        
+        viewModel.onUpdate = { [weak self] in
+            guard let self = self else { return }
+               self.articles = self.viewModel.articals
+               self.homeNewsColleciton.article = self.articles
+           }
+        viewModel.fetchNews()
         loadUI()
     }
     
@@ -39,8 +45,6 @@ class HomeViewController: UIViewController {
         stackContainerView.addArrangedSubview(homeNewsColleciton)
         homeNewsColleciton.autoMatch(.width, to: .width, of: stackContainerView)
         homeNewsColleciton.autoSetDimension(.height, toSize: UIScreen.main.bounds.height)
-        
-        
     }
 }
 
