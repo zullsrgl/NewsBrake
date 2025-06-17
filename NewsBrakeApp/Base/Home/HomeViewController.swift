@@ -27,7 +27,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         navigationItem.title = "News Brake"
         viewModel.onUpdate = { [weak self] in
             guard let self = self else { return }
