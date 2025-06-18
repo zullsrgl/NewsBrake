@@ -12,6 +12,7 @@ class HomeNewsCollectionViewCell: UICollectionViewCell {
     let gradientLayer = CAGradientLayer()
     let overlayView: UIView = {
         let view = UIView()
+        view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -74,6 +75,7 @@ class HomeNewsCollectionViewCell: UICollectionViewCell {
         newsSource.autoPinEdge(.bottom, to: .bottom, of: overlayView, withOffset: -8)
 
         gradientLayer.colors = [UIColor.black.withAlphaComponent(0.7).cgColor,UIColor.clear.cgColor]
+        gradientLayer.cornerRadius = 10
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
         overlayView.layer.insertSublayer(gradientLayer, at: 0)

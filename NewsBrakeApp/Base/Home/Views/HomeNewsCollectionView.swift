@@ -10,6 +10,7 @@ import Kingfisher
 
 class HomeNewsCollectionView: UIView {
     
+    var delegate: DetailViewDelegate?
     var collectionView : UICollectionView!
     var article: [Article] = [] {
         didSet {
@@ -69,5 +70,9 @@ extension HomeNewsCollectionView: UICollectionViewDelegate, UICollectionViewData
             cell.newsImage.image = UIImage(systemName: "magnifyingglass.circle")
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.navigateToDetail(url: article[indexPath.item].url)
     }
 }

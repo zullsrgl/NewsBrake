@@ -6,7 +6,12 @@
 //
 import PureLayout
 
-class HomeViewController: UIViewController {
+protocol DetailViewDelegate: AnyObject {
+    func navigateToDetail(url: String)
+}
+
+class HomeViewController: UIViewController, DetailViewDelegate {
+ 
     
     let viewModel = HomeViewModel()
     let homeNewsColleciton = HomeNewsCollectionView()
@@ -29,6 +34,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationItem.title = "News Brake"
+        homeNewsColleciton.delegate = self
         viewModel.onUpdate = { [weak self] in
             guard let self = self else { return }
                self.articles = self.viewModel.articals
@@ -45,6 +51,11 @@ class HomeViewController: UIViewController {
         stackContainerView.addArrangedSubview(homeNewsColleciton)
         homeNewsColleciton.autoMatch(.width, to: .width, of: stackContainerView)
         homeNewsColleciton.autoSetDimension(.height, toSize: UIScreen.main.bounds.height)
+    }
+    func navigateToDetail(url: String) {
+        let vc = DetailViewController()
+        vc.url = url
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
