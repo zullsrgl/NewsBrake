@@ -10,8 +10,7 @@ protocol DetailViewDelegate: AnyObject {
     func navigateToDetail(url: String)
 }
 
-class HomeViewController: UIViewController, DetailViewDelegate {
- 
+class HomeViewController: UIViewController, DetailViewDelegate, NewsDelegate {
     
     let viewModel = HomeViewModel()
     let homeNewsColleciton = HomeNewsCollectionView()
@@ -34,12 +33,9 @@ class HomeViewController: UIViewController, DetailViewDelegate {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationItem.title = "News Brake"
+        viewModel.newsDelegate = self
         homeNewsColleciton.delegate = self
-        viewModel.onUpdate = { [weak self] in
-            guard let self = self else { return }
-               self.articles = self.viewModel.articals
-               self.homeNewsColleciton.article = self.articles
-           }
+        didUpdateNews()
         viewModel.fetchNews()
         loadUI()
     }
@@ -57,5 +53,12 @@ class HomeViewController: UIViewController, DetailViewDelegate {
         vc.url = url
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func didUpdateNews() {
+        print("news delegate")
+        self.articles = self.viewModel.articals
+        self.homeNewsColleciton.article = self.articles
+    }
+    
 }
 

@@ -7,14 +7,24 @@
 import UIKit
 import Alamofire
 
+protocol NewsDelegate: AnyObject {
+    func didUpdateNews()
+}
+
 class HomeViewModel {
-    var articals: [Article] = []
-    var onUpdate: (() -> Void)?
+    var newsDelegate: NewsDelegate!
     let url = "https://newsapi.org/v2/top-headlines"
     let parameters: [String: String] = [
         "apiKey": "a51868b7016e450a946d25f0f743ac69",
         "country": "us"
     ]
+    var articals: [Article] = []{
+        didSet {
+            DispatchQueue.main.async {
+                self.newsDelegate.didUpdateNews()
+            }
+        }
+    }
     
     func fetchNews() {
         AF.request(url, parameters: parameters).validate().responseDecodable(of: NewsResponse.self){ response in
@@ -22,9 +32,6 @@ class HomeViewModel {
                 
             case .success(let newResponse):
                 self.articals = newResponse.articles
-                DispatchQueue.main.async {
-                    self.onUpdate?()  
-                }
                 
             case .failure(let error):
                 print(error.localizedDescription)

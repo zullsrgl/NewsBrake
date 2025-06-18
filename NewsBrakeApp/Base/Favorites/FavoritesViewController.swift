@@ -8,9 +8,23 @@
 import PureLayout
 
 class FavoritesViewController: UIViewController {
+    
+    let favoritesTableView = FavoritesTableView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .systemBackground
         navigationItem.title = "Favorites"
+        loadUI()
+     
+    }
+    
+    private func loadUI(){
+        view.addSubview(favoritesTableView)
+        favoritesTableView.autoPinEdge(.left, to: .left, of: view)
+        favoritesTableView.autoPinEdge(.right, to: .right, of: view)
+        favoritesTableView.autoPinEdge(.top, to: .top, of: view)
+        favoritesTableView.autoPinEdge(.bottom, to: .bottom, of: view)
+        
     }
 }

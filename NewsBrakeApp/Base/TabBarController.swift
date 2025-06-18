@@ -9,9 +9,6 @@ import PureLayout
 
 class TabBarController: UITabBarController {
     
-    let homeVC = HomeViewController()
-    let searchVC = SearchViewController()
-    let favoritesVC = FavoritesViewController()
     let appearance = UITabBarAppearance()
     
     override func viewDidLoad() {
@@ -32,6 +29,9 @@ class TabBarController: UITabBarController {
     }
     
     func configureTabs() {
+        let homeVC = HomeViewController()
+        let searchVC = SearchViewController()
+        let favoritesVC = FavoritesViewController()
         
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 4)
         searchVC.tabBarItem = UITabBarItem(title: "search", image: UIImage(systemName: "magnifyingglass"), tag: 2)
