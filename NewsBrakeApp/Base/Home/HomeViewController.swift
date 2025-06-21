@@ -7,7 +7,7 @@
 import PureLayout
 
 protocol DetailViewDelegate: AnyObject {
-    func navigateToDetail(url: String)
+    func navigateToDetail(data: Article)
 }
 
 class HomeViewController: UIViewController, DetailViewDelegate, NewsDelegate {
@@ -48,14 +48,14 @@ class HomeViewController: UIViewController, DetailViewDelegate, NewsDelegate {
         homeNewsColleciton.autoMatch(.width, to: .width, of: stackContainerView)
         homeNewsColleciton.autoSetDimension(.height, toSize: UIScreen.main.bounds.height)
     }
-    func navigateToDetail(url: String) {
+    
+    func navigateToDetail(data: Article) {
         let vc = DetailViewController()
-        vc.url = url
+        vc.data = data
         navigationController?.pushViewController(vc, animated: true)
     }
     
     func didUpdateNews() {
-        print("news delegate")
         self.articles = self.viewModel.articals
         self.homeNewsColleciton.article = self.articles
     }

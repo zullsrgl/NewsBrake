@@ -10,7 +10,6 @@ class FavoritesTableView: UIView {
     
     private let bgView: UIView = {
         var view = UIView()
-        view.backgroundColor = .red
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

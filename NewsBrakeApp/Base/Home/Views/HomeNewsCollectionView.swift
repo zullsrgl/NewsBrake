@@ -73,6 +73,6 @@ extension HomeNewsCollectionView: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.navigateToDetail(url: article[indexPath.item].url)
+        delegate?.navigateToDetail(data: article[indexPath.item])
     }
 }

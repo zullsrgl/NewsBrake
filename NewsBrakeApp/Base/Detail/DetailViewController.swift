@@ -9,9 +9,8 @@ import WebKit
 
 class DetailViewController: UIViewController{
     
-    var url: String?
+    var data: Article?
     var click: Bool = false
-    
     var webView: WKWebView = {
         let view = WKWebView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -25,6 +24,8 @@ class DetailViewController: UIViewController{
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .plain, target: self, action:  #selector(goBack))
         navigationItem.leftBarButtonItem?.tintColor = .systemPurple
         
+        click = ArticleStorageManager.shared.isFavorited(data!)
+        updateFavoriteButton()
         loadUI()
     }
     
@@ -35,31 +36,36 @@ class DetailViewController: UIViewController{
         webView.autoPinEdge(.top, to: .top, of: view)
         webView.autoPinEdge(.bottom, to: .bottom, of: view)
         
-        if let url = URL(string: url ?? "") {
+        if let url = URL(string: data?.url ?? "") {
            let request = URLRequest(url: url)
            webView.load(request)
             
         }
     }
     
-    @objc func addToFavorites() {
-        click.toggle()
+    func updateFavoriteButton() {
         let imageName = click ? "heart.fill" : "heart"
-        let favoriteButton = UIBarButtonItem(
-              image: UIImage(systemName: imageName),
-              style: .plain,
-              target: self,
-              action: #selector(addToFavorites)
-          )
-          favoriteButton.tintColor = .systemPurple
-          navigationItem.rightBarButtonItem = favoriteButton
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: imageName),
+            style: .plain,
+            target: self,
+            action: #selector(addToFavorites)
+        )
+        button.tintColor = .systemPurple
+        navigationItem.rightBarButtonItem = button
     }
     
-//TODO: -delete this code
-    
-//    @objc func toggleFavorite() {
-//        print("favorilere ekle")
-//    }
+    @objc func addToFavorites() {
+        guard let article = data else { return }
+        click.toggle()
+        
+        if click {
+            ArticleStorageManager.shared.save(article)
+        } else {
+            ArticleStorageManager.shared.remove(article)
+        }
+        updateFavoriteButton()
+    }
     
     @objc func goBack() {
         navigationController?.popViewController(animated: true)
