@@ -7,16 +7,18 @@
 
 import PureLayout
 
-class FavoritesViewController: UIViewController {
-    
+class FavoritesViewController: UIViewController, DetailViewDelegate {
+
     let favoritesTableView = FavoritesTableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationItem.title = "Favorites"
+        favoritesTableView.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(newsAdded), name: .didAddFavoriteNews, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteNews), name: .removeFavoriteNews, object: nil)
         loadUI()
-     
     }
     
     private func loadUI(){
@@ -26,5 +28,21 @@ class FavoritesViewController: UIViewController {
         favoritesTableView.autoPinEdge(.top, to: .top, of: view)
         favoritesTableView.autoPinEdge(.bottom, to: .bottom, of: view)
         
+    }
+    
+    @objc func newsAdded(){
+        favoritesTableView.articleData = ArticleStorageManager.shared.getFavorites()
+        favoritesTableView.tableView.reloadData()
+    }
+    
+    @objc func deleteNews(){
+        favoritesTableView.articleData = ArticleStorageManager.shared.getFavorites()
+        favoritesTableView.tableView.reloadData()
+    }
+    
+    func navigateToDetail(data: Article) {
+        let vc = DetailViewController()
+        vc.data = data
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

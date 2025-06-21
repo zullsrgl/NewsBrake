@@ -27,31 +27,27 @@ class FavoriteTableViewCell: UITableViewCell {
         return view
     }()
     
-    private let newsImage: UIImageView = {
+     let newsImage: UIImageView = {
         var image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.image = UIImage(named: "newsss")
-        image.layer.cornerRadius = 10
-        image.layer.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
+        image.clipsToBounds = true
         return image
     }()
     
-    private let contentLabel: UILabel = {
+     let contentLabel: UILabel = {
         var label = UILabel()
         label.textColor = .black
-        label.text = "this is a news content,this is a news content,this is a news content,this is a news contentthis is a news contentthis is a news contentthis is a news content,this is a news content,this is a news content"
         label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textAlignment = .left
         return label
     }()
     
-    private let sourceLabel: UILabel = {
+     let sourceLabel: UILabel = {
         var label = UILabel()
-        label.textColor = .blue
+         label.textColor = .purple
         label.numberOfLines = 0
-        label.text = "source: unknow"
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textAlignment = .left
         return label
@@ -74,15 +70,17 @@ class FavoriteTableViewCell: UITableViewCell {
         newsImage.autoSetDimension(.height, toSize: 100)
         newsImage.autoSetDimension(.width, toSize: 100)
         newsImage.autoAlignAxis(toSuperviewAxis: .horizontal)
+        newsImage.autoPinEdge(.left, to: .left, of: stackContainerView, withOffset: 16)
+        newsImage.layer.cornerRadius = 10
         
         stackContainerView.addArrangedSubview(bgView)
-        bgView.autoPinEdge(.left, to: .right, of: newsImage)
+        bgView.autoPinEdge(.left, to: .right, of: newsImage, withOffset: 10)
         bgView.autoPinEdge(.top, to: .top, of: stackContainerView)
         bgView.autoPinEdge(.bottom, to: .bottom, of: stackContainerView)
         
         bgView.addSubview(sourceLabel)
-        sourceLabel.autoPinEdge(.left, to: .left, of: bgView)
-        sourceLabel.autoPinEdge(.bottom, to: .bottom, of: bgView, withOffset: -6)
+        sourceLabel.autoPinEdge(.left, to: .left, of: bgView, withOffset: 8)
+        sourceLabel.autoPinEdge(.bottom, to: .bottom, of: bgView, withOffset: -24)
         sourceLabel.autoSetDimension(.height, toSize: 16)
         
         bgView.addSubview(contentLabel)

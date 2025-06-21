@@ -61,8 +61,10 @@ class DetailViewController: UIViewController{
         
         if click {
             ArticleStorageManager.shared.save(article)
+            NotificationCenter.default.post(name: .didAddFavoriteNews, object: nil)
         } else {
             ArticleStorageManager.shared.remove(article)
+            NotificationCenter.default.post(name: .removeFavoriteNews, object: nil)
         }
         updateFavoriteButton()
     }
