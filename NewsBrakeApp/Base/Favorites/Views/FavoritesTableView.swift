@@ -69,7 +69,6 @@ extension FavoritesTableView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Hücre seçildi: \(indexPath.row)")
         delegate?.navigateToDetail(data: articleData[indexPath.row])
     }
 }

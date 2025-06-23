@@ -1,23 +1,21 @@
 //
-//  HomeViewModel.swift
+//  SearchViewModel.swift
 //  NewsBrakeApp
 //
-//  Created by Zülal Sarıoğlu on 17.06.2025.
+//  Created by Zülal Sarıoğlu on 22.06.2025.
 //
-import UIKit
 import Alamofire
 
-protocol NewsDelegate: AnyObject {
-    func didUpdateNews()
+protocol SearchDelegate: AnyObject {
+    func didUpload()
 }
 
-class HomeViewModel {
-    var newsDelegate: NewsDelegate!
+class SearchViewModel {
+    
+    var searchDelegate: SearchDelegate!
     var articals: [Article] = []{
-        didSet {
-            DispatchQueue.main.async {
-                self.newsDelegate.didUpdateNews()
-            }
+        didSet{
+            searchDelegate.didUpload()
         }
     }
     
@@ -26,6 +24,7 @@ class HomeViewModel {
             switch result {
             case.success(let articals):
                 self?.articals = articals
+                
             case.failure(let error):
                 DispatchQueue.main.async {
                     print("error: \(error)")
@@ -34,3 +33,4 @@ class HomeViewModel {
         }
     }
 }
+
