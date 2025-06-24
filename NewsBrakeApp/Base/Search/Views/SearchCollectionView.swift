@@ -9,6 +9,7 @@ import Kingfisher
 
 class SearchCollectionView: UIView {
     
+    var delegate: DetailViewDelegate?
     var collectionView: UICollectionView!
     var articals : [Article] = [] {
         didSet {
@@ -42,7 +43,6 @@ class SearchCollectionView: UIView {
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.scrollsToTop = false
         collectionView.decelerationRate = .fast
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
@@ -72,5 +72,9 @@ extension SearchCollectionView: UICollectionViewDelegate, UICollectionViewDataSo
             cell.newsImage.image = UIImage(systemName: "magnifyingglass.circle")
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.navigateToDetail(data: articals[indexPath.item])
     }
 }

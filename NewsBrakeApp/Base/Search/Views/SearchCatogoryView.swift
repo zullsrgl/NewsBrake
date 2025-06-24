@@ -10,6 +10,7 @@ class SearchCatogoryView: UIView {
     
     private let categories = ["finance","economy", "game", "entertainment","politics", "war", "health"]
     private let scrollView = UIScrollView()
+    var delegate: SearchCategoryDelegate?
     
     let stackView:  UIStackView = {
         var stack = UIStackView()
@@ -27,6 +28,7 @@ class SearchCatogoryView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpView()
+        setupButtons()
     }
     
     required init?(coder: NSCoder) {
@@ -44,13 +46,34 @@ class SearchCatogoryView: UIView {
         stackView.autoPinEdgesToSuperviewEdges()
         stackView.autoMatch(.height, to: .height, of: scrollView)
         
-        for title in categories {
+        
+    }
+    
+    func setupButtons() {
+        for (index, category) in categories.enumerated() {
             let button = UIButton(type: .system)
-            button.setTitle(title.capitalized, for: .normal)
-            button.setTitleColor(.purple, for: .normal)
-            button.backgroundColor = .systemGray6
-            button.layer.cornerRadius = 4
+            button.setTitle(category.capitalized, for: .normal)
+            button.setTitleColor(.white, for: .normal)
+            button.backgroundColor = .purple
+            button.layer.cornerRadius = 8
+            button.tag = index
+            button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+            button.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
             stackView.addArrangedSubview(button)
         }
+    }
+    
+    @objc func categoryTapped(sender: UIButton){
+        let selected = categories[sender.tag]
+        highlightButton(sender)
+        delegate?.didSelectCategory(category: selected)
+        
+    }
+    
+    private func highlightButton(_ selectedButton: UIButton) {
+        for case let button as UIButton in stackView.arrangedSubviews {
+            button.backgroundColor = .purple
+        }
+        selectedButton.backgroundColor = .darkGray
     }
 }

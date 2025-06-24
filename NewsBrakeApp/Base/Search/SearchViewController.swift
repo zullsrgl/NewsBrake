@@ -7,13 +7,18 @@
 
 import PureLayout
 
-class SearchViewController: UIViewController, SearchDelegate {
+protocol SearchCategoryDelegate {
+    func didSelectCategory(category: String)
+}
+
+class SearchViewController: UIViewController, SearchDelegate, DetailViewDelegate, SearchCategoryDelegate {
     
     private let searchBar = UISearchBar()
     let segmentView = SearchCatogoryView()
     private let collectionView = SearchCollectionView()
     let viewModel = SearchViewModel()
     var articals : [Article] = []
+    var filteredArticles: [Article] = []
     
     let stackContainerView: UIStackView = {
         let stackView = UIStackView()
@@ -31,6 +36,9 @@ class SearchViewController: UIViewController, SearchDelegate {
         navigationItem.title = "Search"
         viewModel.fetchNews()
         viewModel.searchDelegate = self
+        collectionView.delegate = self
+        searchBar.delegate = self
+        segmentView.delegate = self
         setUpUI()
     }
     
@@ -60,5 +68,35 @@ class SearchViewController: UIViewController, SearchDelegate {
     func didUpload() {
         self.articals = viewModel.articals
         self.collectionView.articals = self.articals
+    }
+    
+    func navigateToDetail(data: Article) {
+        let vc = DetailViewController()
+        vc.data = data
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func didSelectCategory(category: String) {
+        filteredArticles = articals.filter { article in
+            article.content?.lowercased().contains(category.lowercased()) == true ||
+            article.description?.lowercased().contains(category.lowercased()) == true
+        }
+        collectionView.articals = filteredArticles
+        collectionView.collectionView.reloadData()
+    }
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            filteredArticles = articals
+        }else {
+            filteredArticles = articals.filter{
+                $0.description?.localizedCaseInsensitiveContains(searchText) ?? true || $0.title.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+        collectionView.articals = filteredArticles
+        collectionView.collectionView.reloadData()
     }
 }

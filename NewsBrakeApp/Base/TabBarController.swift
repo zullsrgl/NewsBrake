@@ -34,8 +34,8 @@ class TabBarController: UITabBarController {
         let favoritesVC = FavoritesViewController()
         
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 4)
-        searchVC.tabBarItem = UITabBarItem(title: "search", image: UIImage(systemName: "magnifyingglass"), tag: 2)
-        favoritesVC.tabBarItem = UITabBarItem(title: "favorites", image: UIImage(systemName: "heart"), tag: 3)
+        searchVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 2)
+        favoritesVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart"), tag: 3)
         
         let homeNav = UINavigationController(rootViewController: homeVC)
         let searchNav = UINavigationController(rootViewController: searchVC)
