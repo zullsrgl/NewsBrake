@@ -8,11 +8,12 @@
 import Alamofire
 import Foundation
 
-class APIManager {
+final class APIManager {
     
     static let shared = APIManager()
-    let url = "https://newsapi.org/v2/top-headlines"
-    let parameters: [String: String] = [
+     
+    private let url = "https://newsapi.org/v2/top-headlines"
+    private let parameters: [String: String] = [
         "apiKey": "a51868b7016e450a946d25f0f743ac69",
         "country": "us" ]
     

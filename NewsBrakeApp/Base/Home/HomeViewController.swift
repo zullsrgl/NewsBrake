@@ -10,13 +10,16 @@ protocol DetailViewDelegate: AnyObject {
     func navigateToDetail(data: Article)
 }
 
-class HomeViewController: UIViewController, DetailViewDelegate, NewsDelegate {
+protocol HomeViewControllerDelegate: AnyObject {
+    func didSelectArticle(data: Article)
+}
+
+class HomeViewController: UIViewController{
     
-    let viewModel = HomeViewModel()
-    let homeNewsColleciton = HomeNewsCollectionView()
-    var articles: [Article] = []
+    private  let viewModel = HomeViewModel()
+    private let homeNewsColleciton = HomeNewsCollectionView()
     
-    let stackContainerView: UIStackView = {
+    private let stackContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .top
@@ -31,16 +34,18 @@ class HomeViewController: UIViewController, DetailViewDelegate, NewsDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemBackground
         navigationItem.title = "News Brake"
-        viewModel.newsDelegate = self
+        
+        viewModel.delegate = self
         homeNewsColleciton.delegate = self
-        didUpdateNews()
         viewModel.fetchNews()
+        
         loadUI()
     }
     
-    func loadUI(){
+    private func loadUI(){
         view.addSubview(stackContainerView)
         stackContainerView.autoPinEdgesToSuperviewEdges()
         
@@ -48,17 +53,19 @@ class HomeViewController: UIViewController, DetailViewDelegate, NewsDelegate {
         homeNewsColleciton.autoMatch(.width, to: .width, of: stackContainerView)
         homeNewsColleciton.autoSetDimension(.height, toSize: UIScreen.main.bounds.height)
     }
-    
-    func navigateToDetail(data: Article) {
+}
+
+extension HomeViewController: HomeViewControllerDelegate {
+    func didSelectArticle(data: Article) {
         let vc = DetailViewController()
         vc.data = data
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    func didUpdateNews() {
-        self.articles = self.viewModel.articals
-        self.homeNewsColleciton.article = self.articles
+}
+
+extension HomeViewController: HomeViewModelDelegate {
+    func didUpdateNews(articals: [Article]) {
+        homeNewsColleciton.articles = articals
     }
-    
 }
 

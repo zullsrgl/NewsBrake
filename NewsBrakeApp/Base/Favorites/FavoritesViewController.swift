@@ -7,17 +7,20 @@
 
 import PureLayout
 
-class FavoritesViewController: UIViewController, DetailViewDelegate {
+class FavoritesViewController: UIViewController {
 
-    let favoritesTableView = FavoritesTableView()
+    private let favoritesTableView = FavoritesTableView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemBackground
         navigationItem.title = "Favorites"
-        favoritesTableView.delegate = self
+     
         NotificationCenter.default.addObserver(self, selector: #selector(newsAdded), name: .didAddFavoriteNews, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteNews), name: .removeFavoriteNews, object: nil)
+        
+        favoritesTableView.delegate = self
         loadUI()
     }
     
@@ -39,7 +42,9 @@ class FavoritesViewController: UIViewController, DetailViewDelegate {
         favoritesTableView.articleData = ArticleStorageManager.shared.getFavorites()
         favoritesTableView.tableView.reloadData()
     }
-    
+}
+
+extension FavoritesViewController:  DetailViewDelegate{
     func navigateToDetail(data: Article) {
         let vc = DetailViewController()
         vc.data = data

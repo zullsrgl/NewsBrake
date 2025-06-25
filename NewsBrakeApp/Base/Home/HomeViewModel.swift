@@ -7,25 +7,19 @@
 import UIKit
 import Alamofire
 
-protocol NewsDelegate: AnyObject {
-    func didUpdateNews()
+protocol HomeViewModelDelegate: AnyObject {
+    func didUpdateNews(articals: [Article])
 }
 
-class HomeViewModel {
-    var newsDelegate: NewsDelegate!
-    var articals: [Article] = []{
-        didSet {
-            DispatchQueue.main.async {
-                self.newsDelegate.didUpdateNews()
-            }
-        }
-    }
+final class HomeViewModel {
+    
+    weak var delegate: HomeViewModelDelegate?
     
     func fetchNews() {
         APIManager.shared.getNews { [weak self] result in
             switch result {
             case.success(let articals):
-                self?.articals = articals
+                self?.delegate?.didUpdateNews(articals: articals)
             case.failure(let error):
                 DispatchQueue.main.async {
                     print("error: \(error)")

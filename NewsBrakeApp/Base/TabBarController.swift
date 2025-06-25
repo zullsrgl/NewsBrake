@@ -9,9 +9,9 @@ import PureLayout
 
 class TabBarController: UITabBarController {
     
-    let appearance = UITabBarAppearance()
-    
     override func viewDidLoad() {
+        
+        let appearance = UITabBarAppearance()
         super.viewDidLoad()
         appearance.configureWithDefaultBackground()
         appearance.backgroundColor = .systemBackground
@@ -28,12 +28,13 @@ class TabBarController: UITabBarController {
         configureTabs()
     }
     
-    func configureTabs() {
+   private func configureTabs() {
+       
         let homeVC = HomeViewController()
         let searchVC = SearchViewController()
         let favoritesVC = FavoritesViewController()
         
-        homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 4)
+        homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 1)
         searchVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 2)
         favoritesVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart"), tag: 3)
         
@@ -42,5 +43,4 @@ class TabBarController: UITabBarController {
         let favNav = UINavigationController(rootViewController: favoritesVC)
         viewControllers = [homeNav, searchNav, favNav]
     }
-    
 }

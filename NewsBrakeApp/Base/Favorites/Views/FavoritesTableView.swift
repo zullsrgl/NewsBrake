@@ -9,8 +9,10 @@ import Kingfisher
 
 class FavoritesTableView: UIView {
     
+    weak var delegate: DetailViewDelegate?
+    
     var articleData = ArticleStorageManager.shared.getFavorites()
-    var delegate: DetailViewDelegate?
+    
     let tableView = UITableView()
     
     private let bgView: UIView = {
@@ -23,7 +25,7 @@ class FavoritesTableView: UIView {
         super.init(frame: frame)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(FavoriteTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(FavoriteTableViewCell.self, forCellReuseIdentifier: FavoriteTableViewCell.identifier)
         setUI()
     }
     
@@ -52,15 +54,8 @@ extension FavoritesTableView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FavoriteTableViewCell
-        cell.contentLabel.text = articleData[indexPath.row].title
-        cell.sourceLabel.text = articleData[indexPath.row].source.name
-        if let urlString = articleData[indexPath.row].urlToImage, let imageUrl = URL(string: urlString) {
-            cell.newsImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholder"))
-        }else {
-            cell.newsImage.contentMode = .scaleAspectFit
-            cell.newsImage.image = UIImage(systemName: "magnifyingglass.circle")
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteTableViewCell.identifier, for: indexPath) as! FavoriteTableViewCell
+        cell.setData(articals: articleData[indexPath.item])
         return cell
     }
     

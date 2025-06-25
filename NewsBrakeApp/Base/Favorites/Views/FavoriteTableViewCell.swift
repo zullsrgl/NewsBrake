@@ -8,7 +8,9 @@ import UIKit
 
 class FavoriteTableViewCell: UITableViewCell {
     
-    let stackContainerView: UIStackView = {
+    static let identifier = "favoriteTableViewIdentifier"
+    
+    private let stackContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .top
@@ -27,7 +29,7 @@ class FavoriteTableViewCell: UITableViewCell {
         return view
     }()
     
-     let newsImage: UIImageView = {
+    private let newsImage: UIImageView = {
         var image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -35,18 +37,18 @@ class FavoriteTableViewCell: UITableViewCell {
         return image
     }()
     
-     let contentLabel: UILabel = {
+    private let contentLabel: UILabel = {
         var label = UILabel()
         label.textColor = .black
         label.numberOfLines = 0
-         label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textAlignment = .left
         return label
     }()
     
-     let sourceLabel: UILabel = {
+    private let sourceLabel: UILabel = {
         var label = UILabel()
-         label.textColor = .purple
+        label.textColor = .purple
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textAlignment = .left
@@ -88,5 +90,18 @@ class FavoriteTableViewCell: UITableViewCell {
         contentLabel.autoPinEdge(.top, to: .top, of: bgView)
         contentLabel.autoPinEdge(.bottom, to: .top, of: sourceLabel, withOffset: -8)
         contentLabel.autoPinEdge(.right, to: .right, of: bgView, withOffset: -8)
+    }
+    
+    func setData(articals: Article){
+        
+        contentLabel.text = articals.title
+        sourceLabel.text = articals.source.name
+        
+        if let urlString = articals.urlToImage, let imageUrl = URL(string: urlString) {
+            newsImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholder"))
+        } else {
+            newsImage.contentMode = .scaleAspectFit
+            newsImage.image = UIImage(systemName: "magnifyingglass.circle")
+        }
     }
 }
