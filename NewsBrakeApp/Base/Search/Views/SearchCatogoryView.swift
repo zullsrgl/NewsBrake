@@ -6,11 +6,15 @@
 //
 import UIKit
 
+protocol SearchCategoryViewDelegate {
+    func didSelectCategory(category: String)
+}
+
 class SearchCatogoryView: UIView {
     
     private let categories = ["finance","economy", "game", "entertainment","politics", "war", "health"]
     private let scrollView = UIScrollView()
-    var delegate: SearchCategoryDelegate?
+    var delegate: SearchCategoryViewDelegate?
     
     let stackView:  UIStackView = {
         var stack = UIStackView()
@@ -35,7 +39,7 @@ class SearchCatogoryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setUpView() {
+    private func setUpView() {
         self.addSubview(scrollView)
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -45,11 +49,9 @@ class SearchCatogoryView: UIView {
         scrollView.addSubview(stackView)
         stackView.autoPinEdgesToSuperviewEdges()
         stackView.autoMatch(.height, to: .height, of: scrollView)
-        
-        
     }
     
-    func setupButtons() {
+    private func setupButtons() {
         for (index, category) in categories.enumerated() {
             let button = UIButton(type: .system)
             button.setTitle(category.capitalized, for: .normal)

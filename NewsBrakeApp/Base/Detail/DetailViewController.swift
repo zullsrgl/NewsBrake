@@ -7,11 +7,15 @@
 import UIKit
 import WebKit
 
+protocol DetailViewControllerDelegate: AnyObject {
+    func didSelectNews(data: Article)
+}
+
 class DetailViewController: UIViewController{
     
     var data: Article?
-    var click: Bool = false
-    var webView: WKWebView = {
+    private var click: Bool = false
+    private var webView: WKWebView = {
         let view = WKWebView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -29,7 +33,7 @@ class DetailViewController: UIViewController{
         loadUI()
     }
     
-    func loadUI() {
+    private func loadUI() {
         view.addSubview(webView)
         webView.autoPinEdge(.left, to: .left, of: view)
         webView.autoPinEdge(.right, to: .right, of: view)
@@ -37,13 +41,13 @@ class DetailViewController: UIViewController{
         webView.autoPinEdge(.bottom, to: .bottom, of: view)
         
         if let url = URL(string: data?.url ?? "") {
-           let request = URLRequest(url: url)
-           webView.load(request)
+            let request = URLRequest(url: url)
+            webView.load(request)
             
         }
     }
     
-    func updateFavoriteButton() {
+    private func updateFavoriteButton() {
         let imageName = click ? "heart.fill" : "heart"
         let button = UIBarButtonItem(
             image: UIImage(systemName: imageName),

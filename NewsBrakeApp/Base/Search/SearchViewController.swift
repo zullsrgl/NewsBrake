@@ -7,20 +7,18 @@
 
 import PureLayout
 
-protocol SearchCategoryDelegate {
-    func didSelectCategory(category: String)
-}
 
-class SearchViewController: UIViewController, SearchDelegate, DetailViewDelegate, SearchCategoryDelegate {
+
+class SearchViewController: UIViewController {
     
     private let searchBar = UISearchBar()
-    let segmentView = SearchCatogoryView()
     private let collectionView = SearchCollectionView()
-    let viewModel = SearchViewModel()
-    var articals : [Article] = []
-    var filteredArticles: [Article] = []
+    private let segmentView = SearchCatogoryView()
+    private let viewModel = SearchViewModel()
+    private var articals : [Article] = []
+    private var filteredArticles: [Article] = []
     
-    let stackContainerView: UIStackView = {
+    private let stackContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -35,14 +33,14 @@ class SearchViewController: UIViewController, SearchDelegate, DetailViewDelegate
         view.backgroundColor = .systemBackground
         navigationItem.title = "Search"
         viewModel.fetchNews()
-        viewModel.searchDelegate = self
+        viewModel.delegate = self
         collectionView.delegate = self
         searchBar.delegate = self
         segmentView.delegate = self
         setUpUI()
     }
     
-    func setUpUI() {
+    private func setUpUI() {
         view.addSubview(stackContainerView)
         stackContainerView.autoPinEdgesToSuperviewSafeArea()
         
@@ -64,26 +62,6 @@ class SearchViewController: UIViewController, SearchDelegate, DetailViewDelegate
         stackContainerView.addArrangedSubview(collectionView)
         
     }
-    
-    func didUpload() {
-        self.articals = viewModel.articals
-        self.collectionView.articals = self.articals
-    }
-    
-    func navigateToDetail(data: Article) {
-        let vc = DetailViewController()
-        vc.data = data
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func didSelectCategory(category: String) {
-        filteredArticles = articals.filter { article in
-            article.content?.lowercased().contains(category.lowercased()) == true ||
-            article.description?.lowercased().contains(category.lowercased()) == true
-        }
-        collectionView.articals = filteredArticles
-        collectionView.collectionView.reloadData()
-    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
@@ -99,4 +77,31 @@ extension SearchViewController: UISearchBarDelegate {
         collectionView.articals = filteredArticles
         collectionView.collectionView.reloadData()
     }
+}
+
+extension SearchViewController: SearchViewModelDelegate {
+    func getData(data: [Article]) {
+        articals = data
+        collectionView.articals = data
+    }
+}
+
+extension SearchViewController: SearchCategoryViewDelegate {
+    func didSelectCategory(category: String) {
+        filteredArticles = articals.filter { article in
+            article.content?.lowercased().contains(category.lowercased()) == true ||
+            article.description?.lowercased().contains(category.lowercased()) == true
+        }
+        collectionView.articals = filteredArticles
+        collectionView.collectionView.reloadData()
+    }
+    
+}
+extension SearchViewController: DetailViewControllerDelegate {
+    func didSelectNews(data: Article) {
+        let vc = DetailViewController()
+        vc.data = data
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }

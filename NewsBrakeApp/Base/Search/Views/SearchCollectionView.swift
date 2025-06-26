@@ -9,8 +9,29 @@ import Kingfisher
 
 class SearchCollectionView: UIView {
     
-    var delegate: DetailViewDelegate?
-    var collectionView: UICollectionView!
+    weak var delegate: DetailViewControllerDelegate?
+    
+    var collectionView: UICollectionView = {
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 16
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width -  32 , height: 200)
+        layout.scrollDirection = .vertical
+        
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.showsHorizontalScrollIndicator = false
+        view.showsVerticalScrollIndicator = false
+        view.allowsMultipleSelection = false
+        view.alwaysBounceHorizontal = false
+        view.alwaysBounceVertical = true
+        view.bounces = true
+        view.contentInsetAdjustmentBehavior = .never
+        view.scrollsToTop = false
+        view.decelerationRate = .fast
+        return view
+        
+    }()
+    
     var articals : [Article] = [] {
         didSet {
             collectionView.reloadData()
@@ -19,6 +40,11 @@ class SearchCollectionView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        
         setup()
     }
     
@@ -26,30 +52,9 @@ class SearchCollectionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup() {
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 16
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width -  32 , height: 200)
-        layout.scrollDirection = .vertical
-        
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.allowsMultipleSelection = false
-        collectionView.alwaysBounceHorizontal = false
-        collectionView.alwaysBounceVertical = true
-        collectionView.bounces = true
-        collectionView.contentInsetAdjustmentBehavior = .never
-        collectionView.scrollsToTop = false
-        collectionView.decelerationRate = .fast
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        
+    private func setup() {
         self.addSubview(collectionView)
         collectionView.autoPinEdgesToSuperviewEdges()
-        
     }
 }
 
@@ -61,20 +66,11 @@ extension SearchCollectionView: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SearchCollectionViewCell
-        cell.contentLabel.text = articals[indexPath.row].content
-        cell.sourceLabel.text = articals[indexPath.row].source.name
-        
-        if let urlString = articals[indexPath.item].urlToImage, let url = URL(string: urlString){
-            cell.newsImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
-        }else {
-            cell.newsImage.contentMode = .scaleAspectFit
-            cell.newsImage.backgroundColor = .systemGray4
-            cell.newsImage.image = UIImage(systemName: "magnifyingglass.circle")
-        }
+        cell.setData(article: articals[indexPath.item])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.navigateToDetail(data: articals[indexPath.item])
+        delegate?.didSelectNews(data: articals[indexPath.item])
     }
 }

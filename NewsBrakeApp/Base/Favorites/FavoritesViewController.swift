@@ -44,8 +44,8 @@ class FavoritesViewController: UIViewController {
     }
 }
 
-extension FavoritesViewController:  DetailViewDelegate{
-    func navigateToDetail(data: Article) {
+extension FavoritesViewController:  DetailViewControllerDelegate{
+    func didSelectNews(data: Article) {
         let vc = DetailViewController()
         vc.data = data
         navigationController?.pushViewController(vc, animated: true)

@@ -8,21 +8,22 @@ import UIKit
 
 class SearchCollectionViewCell: UICollectionViewCell {
     
-    let gradientLayer = CAGradientLayer()
+    private let gradientLayer = CAGradientLayer()
+    
     private let bgView: UIView = {
         var view = UIView()
         view.layer.cornerRadius = 10
         return view
     }()
     
-    let gradiantView: UIView = {
+    private let gradiantView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let newsImage: UIImageView = {
+    private let newsImage: UIImageView = {
         var view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.layer.cornerRadius = 10
@@ -33,8 +34,8 @@ class SearchCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    let contentLabel: UILabel = {
-       var lbl = UILabel()
+    private let contentLabel: UILabel = {
+        var lbl = UILabel()
         lbl.textColor = .white
         lbl.textAlignment = .left
         lbl.numberOfLines = 0
@@ -42,14 +43,14 @@ class SearchCollectionViewCell: UICollectionViewCell {
         return lbl
     }()
     
-    let sourceLabel: UILabel = {
+    private let sourceLabel: UILabel = {
         var lbl = UILabel()
         lbl.textColor = .white
         lbl.textAlignment = .left
         lbl.numberOfLines = 0
         return lbl
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpUI()
@@ -64,7 +65,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         gradientLayer.frame = gradiantView.bounds
     }
     
-    func setUpUI(){
+    private func setUpUI(){
         
         self.addSubview(bgView)
         bgView.autoPinEdgesToSuperviewEdges()
@@ -93,5 +94,19 @@ class SearchCollectionViewCell: UICollectionViewCell {
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
         gradiantView.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
+    func setData(article: Article){
+        
+        contentLabel.text = article.content
+        sourceLabel.text = article.source.name
+        
+        if let urlString = article.urlToImage, let url = URL(string: urlString){
+            newsImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
+        } else {
+            newsImage.contentMode = .scaleAspectFit
+            newsImage.backgroundColor = .systemGray4
+            newsImage.image = UIImage(systemName: "magnifyingglass.circle")
+        }
     }
 }

@@ -6,24 +6,19 @@
 //
 import Alamofire
 
-protocol SearchDelegate: AnyObject {
-    func didUpload()
+protocol SearchViewModelDelegate: AnyObject {
+    func getData(data: [Article])
 }
 
 class SearchViewModel {
     
-    var searchDelegate: SearchDelegate!
-    var articals: [Article] = []{
-        didSet{
-            searchDelegate.didUpload()
-        }
-    }
+    weak var delegate: SearchViewModelDelegate!
     
     func fetchNews() {
         APIManager.shared.getNews { [weak self] result in
             switch result {
             case.success(let articals):
-                self?.articals = articals
+                self?.delegate.getData(data: articals)
                 
             case.failure(let error):
                 DispatchQueue.main.async {

@@ -6,9 +6,7 @@
 //
 import PureLayout
 
-protocol DetailViewDelegate: AnyObject {
-    func navigateToDetail(data: Article)
-}
+
 
 protocol HomeViewControllerDelegate: AnyObject {
     func didSelectArticle(data: Article)

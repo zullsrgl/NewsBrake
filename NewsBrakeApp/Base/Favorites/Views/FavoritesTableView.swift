@@ -9,7 +9,7 @@ import Kingfisher
 
 class FavoritesTableView: UIView {
     
-    weak var delegate: DetailViewDelegate?
+    weak var delegate: DetailViewControllerDelegate?
     
     var articleData = ArticleStorageManager.shared.getFavorites()
     
@@ -64,6 +64,6 @@ extension FavoritesTableView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.navigateToDetail(data: articleData[indexPath.row])
+        delegate?.didSelectNews(data: articleData[indexPath.row])
     }
 }
