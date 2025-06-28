@@ -95,7 +95,7 @@ extension SearchViewController: SearchCategoryViewDelegate {
     }
 }
 
-extension SearchViewController: DetailViewControllerDelegate {
+extension SearchViewController: SearchCollectionViewDelegate {
     func didSelectNews(data: Article) {
         let vc = DetailViewController(data: data)
         navigationController?.pushViewController(vc, animated: true)

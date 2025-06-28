@@ -10,19 +10,6 @@ class FavoriteTableViewCell: UITableViewCell {
     
     static let identifier = "favoriteTableViewIdentifier"
     
-    private let stackContainerView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .top
-        stackView.distribution = .fill
-        stackView.spacing = 0
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0)
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.backgroundColor = .clear
-        return stackView
-    }()
-    
     private let bgView: UIView = {
         var view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -57,28 +44,26 @@ class FavoriteTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpViews()
+        setUpUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setUpViews() {
-        contentView.addSubview(stackContainerView)
-        stackContainerView.autoPinEdgesToSuperviewEdges()
+    private func setUpUI() {
         
-        stackContainerView.addArrangedSubview(newsImage)
+        contentView.addSubview(newsImage)
         newsImage.autoSetDimension(.height, toSize: 100)
         newsImage.autoSetDimension(.width, toSize: 100)
         newsImage.autoAlignAxis(toSuperviewAxis: .horizontal)
-        newsImage.autoPinEdge(.left, to: .left, of: stackContainerView, withOffset: 16)
-        newsImage.layer.cornerRadius = 10
+        newsImage.autoPinEdge(.left, to: .left, of: contentView, withOffset: 16)
         
-        stackContainerView.addArrangedSubview(bgView)
+        contentView.addSubview(bgView)
         bgView.autoPinEdge(.left, to: .right, of: newsImage, withOffset: 10)
-        bgView.autoPinEdge(.top, to: .top, of: stackContainerView)
-        bgView.autoPinEdge(.bottom, to: .bottom, of: stackContainerView)
+        bgView.autoPinEdge(.top, to: .top, of: contentView)
+        bgView.autoPinEdge(.bottom, to: .bottom, of: contentView)
+        bgView.autoPinEdge(.right, to: .right, of: contentView)
         
         bgView.addSubview(sourceLabel)
         sourceLabel.autoPinEdge(.left, to: .left, of: bgView, withOffset: 8)

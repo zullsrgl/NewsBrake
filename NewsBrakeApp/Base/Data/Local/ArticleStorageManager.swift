@@ -12,7 +12,6 @@ final class ArticleStorageManager {
     static let shared = ArticleStorageManager()
     private let defaults = UserDefaults.standard
     private let key = "favoriteArticles"
-    private init() {}
 
     func getFavorites() -> [Article] {
         guard let data = defaults.data(forKey: key),

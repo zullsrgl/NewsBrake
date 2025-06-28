@@ -7,10 +7,6 @@
 import UIKit
 import WebKit
 
-protocol DetailViewControllerDelegate: AnyObject {
-    func didSelectNews(data: Article)
-}
-
 class DetailViewController: UIViewController{
     
     init(data: Article) {
@@ -76,11 +72,12 @@ class DetailViewController: UIViewController{
         
         if isFavorite {
             ArticleStorageManager.shared.remove(data)
-            NotificationCenter.default.post(name: .removeFavoriteNews, object: nil)
         } else {
             ArticleStorageManager.shared.save(data)
-            NotificationCenter.default.post(name: .didAddFavoriteNews, object: nil)
         }
+        
+        NotificationCenter.default.post(name: .didChangeFavoriteNews, object: nil)
+        
         updateFavoriteButton()
     }
     

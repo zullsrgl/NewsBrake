@@ -7,9 +7,13 @@
 import UIKit
 import Kingfisher
 
+protocol SearchCollectionViewDelegate: AnyObject {
+    func didSelectNews(data: Article)
+}
+
 class SearchCollectionView: UIView {
     
-    weak var delegate: DetailViewControllerDelegate?
+    weak var delegate: SearchCollectionViewDelegate?
     
     var collectionView: UICollectionView = {
         

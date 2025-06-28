@@ -8,7 +8,7 @@
 import PureLayout
 
 class FavoritesViewController: UIViewController {
-
+    
     private let favoritesTableView = FavoritesTableView()
     
     override func viewDidLoad() {
@@ -16,9 +16,8 @@ class FavoritesViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         navigationItem.title = "Favorites"
-     
-        NotificationCenter.default.addObserver(self, selector: #selector(newsAdded), name: .didAddFavoriteNews, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(deleteNews), name: .removeFavoriteNews, object: nil)
+    
+        NotificationCenter.default.addObserver(self, selector: #selector(updateArticles), name: .didChangeFavoriteNews, object: nil)
         
         favoritesTableView.delegate = self
         loadUI()
@@ -26,25 +25,15 @@ class FavoritesViewController: UIViewController {
     
     private func loadUI(){
         view.addSubview(favoritesTableView)
-        favoritesTableView.autoPinEdge(.left, to: .left, of: view)
-        favoritesTableView.autoPinEdge(.right, to: .right, of: view)
-        favoritesTableView.autoPinEdge(.top, to: .top, of: view)
-        favoritesTableView.autoPinEdge(.bottom, to: .bottom, of: view)
-        
+        favoritesTableView.autoPinEdgesToSuperviewEdges()
     }
     
-    @objc func newsAdded(){
-        favoritesTableView.articleData = ArticleStorageManager.shared.getFavorites()
-        favoritesTableView.reloadData()
-    }
-    
-    @objc func deleteNews(){
-        favoritesTableView.articleData = ArticleStorageManager.shared.getFavorites()
-        favoritesTableView.reloadData()
+    @objc func updateArticles(){
+        favoritesTableView.articles = ArticleStorageManager.shared.getFavorites()
     }
 }
 
-extension FavoritesViewController:  DetailViewControllerDelegate{
+extension FavoritesViewController: FavoritesTableViewDelegate{
     func didSelectNews(data: Article) {
         let vc = DetailViewController(data: data)
         navigationController?.pushViewController(vc, animated: true)

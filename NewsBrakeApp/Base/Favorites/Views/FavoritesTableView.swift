@@ -7,59 +7,65 @@
 import UIKit
 import Kingfisher
 
+protocol FavoritesTableViewDelegate: AnyObject {
+    func didSelectNews(data: Article)
+}
+
 class FavoritesTableView: UIView {
     
-    weak var delegate: DetailViewControllerDelegate?
+    weak var delegate: FavoritesTableViewDelegate?
     
-    var articleData = ArticleStorageManager.shared.getFavorites()
+    var articles = ArticleStorageManager.shared.getFavorites(){
+        didSet{
+            tableView.reloadData()
+        }
+    }
     
-    private let tableView = UITableView()
+    private let tableView:  UITableView = {
+        var view = UITableView()
+        view.separatorStyle = .none
+        view.isUserInteractionEnabled = true
+        return view
+    }()
     
     private let bgView: UIView = {
         var view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-   
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(FavoriteTableViewCell.self, forCellReuseIdentifier: FavoriteTableViewCell.identifier)
-        setUI()
+        
+        setUpUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setUI() {
+    private func setUpUI() {
         self.addSubview(bgView)
         bgView.autoPinEdgesToSuperviewEdges()
         
         bgView.addSubview(tableView)
-        tableView.autoPinEdge(.left, to: .left, of: bgView)
-        tableView.autoPinEdge(.right, to: .right, of: bgView)
-        tableView.autoPinEdge(.bottom, to: .bottom, of: bgView)
-        tableView.autoPinEdge(.top, to: .top, of: bgView)
-        tableView.separatorStyle = .none
-        tableView.isUserInteractionEnabled = true
-    }
-    
-    func reloadData(){
-        tableView.reloadData()
+        tableView.autoPinEdgesToSuperviewEdges()
     }
 }
 
 extension FavoritesTableView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return articleData.count
+        return articles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteTableViewCell.identifier, for: indexPath) as! FavoriteTableViewCell
-        cell.setData(articals: articleData[indexPath.item])
+        cell.setData(articals: articles[indexPath.item])
         return cell
     }
     
@@ -68,6 +74,6 @@ extension FavoritesTableView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didSelectNews(data: articleData[indexPath.row])
+        delegate?.didSelectNews(data: articles[indexPath.row])
     }
 }
