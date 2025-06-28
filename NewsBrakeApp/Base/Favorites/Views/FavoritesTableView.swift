@@ -13,7 +13,7 @@ class FavoritesTableView: UIView {
     
     var articleData = ArticleStorageManager.shared.getFavorites()
     
-    let tableView = UITableView()
+    private let tableView = UITableView()
     
     private let bgView: UIView = {
         var view = UIView()
@@ -44,6 +44,10 @@ class FavoritesTableView: UIView {
         tableView.autoPinEdge(.top, to: .top, of: bgView)
         tableView.separatorStyle = .none
         tableView.isUserInteractionEnabled = true
+    }
+    
+    func reloadData(){
+        tableView.reloadData()
     }
 }
 

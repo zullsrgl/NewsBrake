@@ -6,8 +6,6 @@
 //
 import PureLayout
 
-
-
 protocol HomeViewControllerDelegate: AnyObject {
     func didSelectArticle(data: Article)
 }
@@ -55,8 +53,7 @@ class HomeViewController: UIViewController{
 
 extension HomeViewController: HomeViewControllerDelegate {
     func didSelectArticle(data: Article) {
-        let vc = DetailViewController()
-        vc.data = data
+        let vc = DetailViewController(data: data)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

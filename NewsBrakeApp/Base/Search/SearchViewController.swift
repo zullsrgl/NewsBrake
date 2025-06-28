@@ -7,8 +7,6 @@
 
 import PureLayout
 
-
-
 class SearchViewController: UIViewController {
     
     private let searchBar = UISearchBar()
@@ -95,12 +93,11 @@ extension SearchViewController: SearchCategoryViewDelegate {
         collectionView.articals = filteredArticles
         collectionView.collectionView.reloadData()
     }
-    
 }
+
 extension SearchViewController: DetailViewControllerDelegate {
     func didSelectNews(data: Article) {
-        let vc = DetailViewController()
-        vc.data = data
+        let vc = DetailViewController(data: data)
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -13,8 +13,23 @@ protocol DetailViewControllerDelegate: AnyObject {
 
 class DetailViewController: UIViewController{
     
-    var data: Article?
-    private var click: Bool = false
+    init(data: Article) {
+        self.data = data
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private var isFavorite: Bool {
+        get {
+            return ArticleStorageManager.shared.isFavorited(data)
+        }
+    }
+    
+    var data: Article
+    
     private var webView: WKWebView = {
         let view = WKWebView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -22,13 +37,11 @@ class DetailViewController: UIViewController{
     }()
     
     override func viewDidLoad() {
-        title = "NEWS"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action:  #selector(addToFavorites))
-        navigationItem.rightBarButtonItem?.tintColor = .systemPurple
+        navigationItem.title = "NEWS"
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .plain, target: self, action:  #selector(goBack))
         navigationItem.leftBarButtonItem?.tintColor = .systemPurple
         
-        click = ArticleStorageManager.shared.isFavorited(data!)
         updateFavoriteButton()
         loadUI()
     }
@@ -40,7 +53,7 @@ class DetailViewController: UIViewController{
         webView.autoPinEdge(.top, to: .top, of: view)
         webView.autoPinEdge(.bottom, to: .bottom, of: view)
         
-        if let url = URL(string: data?.url ?? "") {
+        if let url = URL(string: data.url) {
             let request = URLRequest(url: url)
             webView.load(request)
             
@@ -48,7 +61,7 @@ class DetailViewController: UIViewController{
     }
     
     private func updateFavoriteButton() {
-        let imageName = click ? "heart.fill" : "heart"
+        let imageName = isFavorite ? "heart.fill" : "heart"
         let button = UIBarButtonItem(
             image: UIImage(systemName: imageName),
             style: .plain,
@@ -60,15 +73,13 @@ class DetailViewController: UIViewController{
     }
     
     @objc func addToFavorites() {
-        guard let article = data else { return }
-        click.toggle()
         
-        if click {
-            ArticleStorageManager.shared.save(article)
-            NotificationCenter.default.post(name: .didAddFavoriteNews, object: nil)
-        } else {
-            ArticleStorageManager.shared.remove(article)
+        if isFavorite {
+            ArticleStorageManager.shared.remove(data)
             NotificationCenter.default.post(name: .removeFavoriteNews, object: nil)
+        } else {
+            ArticleStorageManager.shared.save(data)
+            NotificationCenter.default.post(name: .didAddFavoriteNews, object: nil)
         }
         updateFavoriteButton()
     }

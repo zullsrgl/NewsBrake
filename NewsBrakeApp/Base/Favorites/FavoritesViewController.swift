@@ -35,19 +35,18 @@ class FavoritesViewController: UIViewController {
     
     @objc func newsAdded(){
         favoritesTableView.articleData = ArticleStorageManager.shared.getFavorites()
-        favoritesTableView.tableView.reloadData()
+        favoritesTableView.reloadData()
     }
     
     @objc func deleteNews(){
         favoritesTableView.articleData = ArticleStorageManager.shared.getFavorites()
-        favoritesTableView.tableView.reloadData()
+        favoritesTableView.reloadData()
     }
 }
 
 extension FavoritesViewController:  DetailViewControllerDelegate{
     func didSelectNews(data: Article) {
-        let vc = DetailViewController()
-        vc.data = data
+        let vc = DetailViewController(data: data)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
