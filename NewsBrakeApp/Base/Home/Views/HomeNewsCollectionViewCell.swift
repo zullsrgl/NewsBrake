@@ -85,7 +85,7 @@ class HomeNewsCollectionViewCell: UICollectionViewCell {
     func setData(articals: Article){
         
         newsTitle.text = articals.title
-        newsSource.text = articals.source.name
+        newsSource.text = articals.source?.name
         
         if let urlString = articals.urlToImage, let url = URL(string: urlString){
             newsImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))

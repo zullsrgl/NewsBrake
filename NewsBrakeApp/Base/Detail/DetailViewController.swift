@@ -44,12 +44,9 @@ class DetailViewController: UIViewController{
     
     private func loadUI() {
         view.addSubview(webView)
-        webView.autoPinEdge(.left, to: .left, of: view)
-        webView.autoPinEdge(.right, to: .right, of: view)
-        webView.autoPinEdge(.top, to: .top, of: view)
-        webView.autoPinEdge(.bottom, to: .bottom, of: view)
+        webView.autoPinEdgesToSuperviewEdges()
         
-        if let url = URL(string: data.url) {
+        if let url = URL(string: data.url ?? "") {
             let request = URLRequest(url: url)
             webView.load(request)
             
@@ -82,6 +79,6 @@ class DetailViewController: UIViewController{
     }
     
     @objc func goBack() {
-        navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true) 
     }
 }

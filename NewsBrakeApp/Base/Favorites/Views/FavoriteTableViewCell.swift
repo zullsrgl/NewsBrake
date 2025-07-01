@@ -80,7 +80,7 @@ class FavoriteTableViewCell: UITableViewCell {
     func setData(articals: Article){
         
         contentLabel.text = articals.title
-        sourceLabel.text = articals.source.name
+        sourceLabel.text = articals.source?.name
         
         if let urlString = articals.urlToImage, let imageUrl = URL(string: urlString) {
             newsImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholder"))

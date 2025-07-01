@@ -15,7 +15,7 @@ class SearchCollectionView: UIView {
     
     weak var delegate: SearchCollectionViewDelegate?
     
-    var collectionView: UICollectionView = {
+    private let collectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 16

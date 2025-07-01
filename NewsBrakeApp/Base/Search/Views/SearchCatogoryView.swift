@@ -12,7 +12,7 @@ protocol SearchCategoryViewDelegate {
 
 class SearchCatogoryView: UIView {
     
-    private let categories = ["finance","economy", "game", "entertainment","politics", "war", "health"]
+    private let categories = ["finance","economy", "game","politics", "war", "health"]
     private let scrollView = UIScrollView()
     var delegate: SearchCategoryViewDelegate?
     

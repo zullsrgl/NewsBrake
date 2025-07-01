@@ -13,7 +13,6 @@ class SearchViewController: UIViewController {
     private let collectionView = SearchCollectionView()
     private let segmentView = SearchCatogoryView()
     private let viewModel = SearchViewModel()
-    private var articals : [Article] = []
     private var filteredArticles: [Article] = []
     
     private let stackContainerView: UIStackView = {
@@ -65,33 +64,26 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty {
-            filteredArticles = articals
-        }else {
-            filteredArticles = articals.filter{
-                $0.description?.localizedCaseInsensitiveContains(searchText) ?? true || $0.title.localizedCaseInsensitiveContains(searchText)
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+            self.viewModel.fetchSearchNews(keyword: searchText)
         }
-        collectionView.articals = filteredArticles
-        collectionView.collectionView.reloadData()
     }
 }
 
 extension SearchViewController: SearchViewModelDelegate {
     func getData(data: [Article]) {
-        articals = data
         collectionView.articals = data
     }
 }
 
 extension SearchViewController: SearchCategoryViewDelegate {
     func didSelectCategory(category: String) {
-        filteredArticles = articals.filter { article in
-            article.content?.lowercased().contains(category.lowercased()) == true ||
-            article.description?.lowercased().contains(category.lowercased()) == true
-        }
-        collectionView.articals = filteredArticles
-        collectionView.collectionView.reloadData()
+        
+      //  filteredArticles = articals.filter { article in
+      //      article.content?.lowercased().contains(category.lowercased()) == true ||
+      //      article.description?.lowercased().contains(category.lowercased()) == true
+      //  }
+      //  collectionView.articals = filteredArticles
     }
 }
 

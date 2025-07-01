@@ -19,12 +19,23 @@ class SearchViewModel {
             switch result {
             case.success(let articals):
                 self?.delegate.getData(data: articals)
-                
             case.failure(let error):
                 DispatchQueue.main.async {
                     print("error: \(error)")
                 }
             }
+        }
+    }
+    
+    func fetchSearchNews(keyword: String) {
+        APIManager.shared.getFilteredNews(for: keyword) { [weak self] result in
+            switch result {
+            case.success(let keyword):
+                self?.delegate.getData(data: keyword)
+            case.failure(let error):
+                print("error: \(error)")
+            }
+            
         }
     }
 }

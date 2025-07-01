@@ -13,8 +13,11 @@ final class APIManager {
     static let shared = APIManager()
     
     private let baseURL = "https://newsapi.org/v2/top-headlines"
+    private let apiKey = "8a103b3630444c6486498a1b4ac0e27e"
+    private let country = "us"
+    
     private  let parameters: [String: String] = [
-        "apiKey": "a51868b7016e450a946d25f0f743ac69",
+        "apiKey": "8a103b3630444c6486498a1b4ac0e27e",
         "country": "us" ]
     
     func getNews(completion: @escaping (Result<[Article], Error>) -> Void) {
@@ -25,6 +28,22 @@ final class APIManager {
                 completion(.success(value.articles))
             case .failure(let error):
                 completion(.failure(error))
+            }
+        }
+    }
+    
+    func getFilteredNews( for query: String, complation: @escaping(Result<[Article], Error>) -> Void){
+          let searchpPrameters: [String: String] = [
+            "apiKey": apiKey,
+            "country": country,
+            "q": query]
+        
+        AF.request(baseURL, parameters: searchpPrameters).validate().responseDecodable(of: NewsResponse.self){ response in
+            switch response.result {
+                case .success(let value):
+                complation(.success(value.articles))
+            case .failure(let error):
+                print("getFilteredNews error: \(error)")
             }
         }
     }

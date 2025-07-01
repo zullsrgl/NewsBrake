@@ -99,7 +99,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
     func setData(article: Article){
         
         contentLabel.text = article.content
-        sourceLabel.text = article.source.name
+        sourceLabel.text = article.source?.name
         
         if let urlString = article.urlToImage, let url = URL(string: urlString){
             newsImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
