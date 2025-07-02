@@ -71,10 +71,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         bgView.autoPinEdgesToSuperviewEdges()
         
         bgView.addSubview(newsImage)
-        newsImage.autoPinEdge(.left, to: .left, of: bgView)
-        newsImage.autoPinEdge(.right, to: .right, of: bgView)
-        newsImage.autoPinEdge(.top, to: .top, of: bgView)
-        newsImage.autoPinEdge(.bottom, to: .bottom, of: bgView)
+        newsImage.autoPinEdgesToSuperviewEdges()
         
         contentView.addSubview(gradiantView)
         gradiantView.autoPinEdgesToSuperviewEdges()
@@ -89,7 +86,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         contentLabel.autoPinEdge(.left, to: .left, of: bgView, withOffset: 8)
         contentLabel.autoPinEdge(.right, to: .right, of: bgView, withOffset: -8)
         
-        gradientLayer.colors = [UIColor.black.withAlphaComponent(0.7).cgColor,UIColor.clear.cgColor]
+        gradientLayer.colors = [UIColor.black.withAlphaComponent(0.5).cgColor,UIColor.clear.cgColor]
         gradientLayer.cornerRadius = 10
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.0)
@@ -104,8 +101,6 @@ class SearchCollectionViewCell: UICollectionViewCell {
         if let urlString = article.urlToImage, let url = URL(string: urlString){
             newsImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
         } else {
-            newsImage.contentMode = .scaleAspectFit
-            newsImage.backgroundColor = .systemGray4
             newsImage.image = UIImage(systemName: "magnifyingglass.circle")
         }
     }

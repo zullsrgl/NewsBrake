@@ -6,15 +6,17 @@
 //
 import UIKit
 
-protocol SearchCategoryViewDelegate {
-    func didSelectCategory(category: String)
+protocol SearchCategoryViewDelegate: AnyObject {
+    func didSelectCategory(category: String?)
 }
 
 class SearchCatogoryView: UIView {
     
-    private let categories = ["finance","economy", "game","politics", "war", "health"]
+    private lazy var categories = ["business","entertainment", "general","health", "sports", "technology"]
+    private lazy var selectedCetegory: String? = nil
+    
     private let scrollView = UIScrollView()
-    var delegate: SearchCategoryViewDelegate?
+    weak var delegate: SearchCategoryViewDelegate?
     
     let stackView:  UIStackView = {
         var stack = UIStackView()
@@ -53,29 +55,47 @@ class SearchCatogoryView: UIView {
     
     private func setupButtons() {
         for (index, category) in categories.enumerated() {
-            let button = UIButton(type: .system)
-            button.setTitle(category.capitalized, for: .normal)
-            button.setTitleColor(.white, for: .normal)
-            button.backgroundColor = .purple
-            button.layer.cornerRadius = 8
-            button.tag = index
-            button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
-            button.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
-            stackView.addArrangedSubview(button)
+            let cetogireButton: UIButton = {
+                let button = UIButton(type: .system)
+                button.setTitle(category.capitalized, for: .normal)
+                button.setTitleColor(.white, for: .normal)
+                button.backgroundColor = .purple
+                button.layer.cornerRadius = 8
+                button.tag = index
+                return button
+            }()
+            
+            cetogireButton.addTarget(self, action: #selector(categoryTapped), for: .touchUpInside)
+            stackView.addArrangedSubview(cetogireButton)
         }
     }
     
     @objc func categoryTapped(sender: UIButton){
-        let selected = categories[sender.tag]
-        highlightButton(sender)
-        delegate?.didSelectCategory(category: selected)
         
+        let tappedCategory = categories[sender.tag]
+        
+        if selectedCetegory == tappedCategory {
+            selectedCetegory = nil
+            unhighlightButton()
+            delegate?.didSelectCategory(category: nil)
+            
+        }else {
+            selectedCetegory = tappedCategory
+            highlightButton(sender)
+            delegate?.didSelectCategory(category: tappedCategory)
+        }
     }
     
     private func highlightButton(_ selectedButton: UIButton) {
         for case let button as UIButton in stackView.arrangedSubviews {
             button.backgroundColor = .purple
         }
-        selectedButton.backgroundColor = .darkGray
+        selectedButton.backgroundColor = .lightGray
+    }
+    
+    private func unhighlightButton(){
+        for case let button as UIButton in stackView.arrangedSubviews {
+            button.backgroundColor = .purple
+        }
     }
 }

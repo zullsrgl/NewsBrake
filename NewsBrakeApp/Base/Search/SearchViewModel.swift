@@ -7,18 +7,18 @@
 import Alamofire
 
 protocol SearchViewModelDelegate: AnyObject {
-    func getData(data: [Article])
+    func didUpdateArticals(data: [Article])
 }
 
 class SearchViewModel {
     
-    weak var delegate: SearchViewModelDelegate!
+    weak var delegate: SearchViewModelDelegate?
     
     func fetchNews() {
         APIManager.shared.getNews { [weak self] result in
             switch result {
             case.success(let articals):
-                self?.delegate.getData(data: articals)
+                self?.delegate?.didUpdateArticals(data: articals)
             case.failure(let error):
                 DispatchQueue.main.async {
                     print("error: \(error)")
@@ -31,9 +31,22 @@ class SearchViewModel {
         APIManager.shared.getFilteredNews(for: keyword) { [weak self] result in
             switch result {
             case.success(let keyword):
-                self?.delegate.getData(data: keyword)
+                self?.delegate?.didUpdateArticals(data: keyword)
             case.failure(let error):
                 print("error: \(error)")
+            }
+            
+        }
+    }
+    
+    
+    func fetchCategory(category: String){
+        APIManager.shared.getCetogryNews(for: category){ [weak self] result in
+            switch result {
+            case .success(let result):
+                self?.delegate?.didUpdateArticals(data: result)
+            case .failure(let err):
+                print("error: \(err)")
             }
             
         }

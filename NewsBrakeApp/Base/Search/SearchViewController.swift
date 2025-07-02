@@ -9,11 +9,19 @@ import PureLayout
 
 class SearchViewController: UIViewController {
     
-    private let searchBar = UISearchBar()
+    private var timer: Timer?
+    
+    private let searchBar: UISearchBar = {
+        let view = UISearchBar()
+        view.placeholder = "search anythink"
+        view.keyboardType = .default
+        view.searchBarStyle = .minimal
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     private let collectionView = SearchCollectionView()
     private let segmentView = SearchCatogoryView()
     private let viewModel = SearchViewModel()
-    private var filteredArticles: [Article] = []
     
     private let stackContainerView: UIStackView = {
         let stackView = UIStackView()
@@ -27,6 +35,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemBackground
         navigationItem.title = "Search"
         viewModel.fetchNews()
@@ -34,6 +43,7 @@ class SearchViewController: UIViewController {
         collectionView.delegate = self
         searchBar.delegate = self
         segmentView.delegate = self
+        
         setUpUI()
     }
     
@@ -42,15 +52,9 @@ class SearchViewController: UIViewController {
         stackContainerView.autoPinEdgesToSuperviewSafeArea()
         
         stackContainerView.addArrangedSubview(searchBar)
-        stackContainerView.addArrangedSubview(segmentView)
         
-        searchBar.placeholder = "search anythink"
-        searchBar.keyboardType = .default
-        searchBar.searchBarStyle = .minimal
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.autoSetDimension(.width, toSize: UIScreen.main.bounds.width)
         searchBar.autoSetDimension(.height, toSize: 36)
-        searchBar.autoPinEdge(.top, to: .top, of: stackContainerView)
         
         stackContainerView.addArrangedSubview(segmentView)
         segmentView.stackView.autoSetDimension(.height, toSize: 32)
@@ -62,28 +66,25 @@ class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: UISearchBarDelegate {
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+        
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] _ in
+            guard let self = self else { return }
             self.viewModel.fetchSearchNews(keyword: searchText)
         }
     }
 }
 
 extension SearchViewController: SearchViewModelDelegate {
-    func getData(data: [Article]) {
+    func didUpdateArticals(data: [Article]) {
         collectionView.articals = data
     }
 }
 
 extension SearchViewController: SearchCategoryViewDelegate {
-    func didSelectCategory(category: String) {
-        
-      //  filteredArticles = articals.filter { article in
-      //      article.content?.lowercased().contains(category.lowercased()) == true ||
-      //      article.description?.lowercased().contains(category.lowercased()) == true
-      //  }
-      //  collectionView.articals = filteredArticles
+    func didSelectCategory(category: String?) {
+        viewModel.fetchCategory(category: category ?? "")
     }
 }
 
@@ -92,5 +93,4 @@ extension SearchViewController: SearchCollectionViewDelegate {
         let vc = DetailViewController(data: data)
         navigationController?.pushViewController(vc, animated: true)
     }
-    
 }
