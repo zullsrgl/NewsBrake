@@ -10,6 +10,7 @@ import PureLayout
 class SearchViewController: UIViewController {
     
     private var timer: Timer?
+    private var selectedCategory: String?
     
     private let searchBar: UISearchBar = {
         let view = UISearchBar()
@@ -63,16 +64,20 @@ class SearchViewController: UIViewController {
         stackContainerView.addArrangedSubview(collectionView)
         
     }
+    
+    private func performSearch(){
+        
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false){ [weak self] _ in
+            guard let self = self else {return}
+            self.viewModel.fetchSearchNews(keyword: searchBar.text ?? "", category: selectedCategory)
+        }
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] _ in
-            guard let self = self else { return }
-            self.viewModel.fetchSearchNews(keyword: searchText)
-        }
+        performSearch()
     }
 }
 
@@ -84,7 +89,8 @@ extension SearchViewController: SearchViewModelDelegate {
 
 extension SearchViewController: SearchCategoryViewDelegate {
     func didSelectCategory(category: String?) {
-        viewModel.fetchCategory(category: category ?? "")
+        selectedCategory = category
+        performSearch()
     }
 }
 

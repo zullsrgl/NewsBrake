@@ -27,26 +27,13 @@ class SearchViewModel {
         }
     }
     
-    func fetchSearchNews(keyword: String) {
-        APIManager.shared.getFilteredNews(for: keyword) { [weak self] result in
+    func fetchSearchNews(keyword: String, category: String?) {
+        APIManager.shared.getFilteredNews(for: keyword, category: category) { [weak self] result in
             switch result {
             case.success(let keyword):
                 self?.delegate?.didUpdateArticals(data: keyword)
             case.failure(let error):
                 print("error: \(error)")
-            }
-            
-        }
-    }
-    
-    
-    func fetchCategory(category: String){
-        APIManager.shared.getCetogryNews(for: category){ [weak self] result in
-            switch result {
-            case .success(let result):
-                self?.delegate?.didUpdateArticals(data: result)
-            case .failure(let err):
-                print("error: \(err)")
             }
             
         }
