@@ -16,8 +16,10 @@ final class APIManager {
     private lazy var apiKey = "8a103b3630444c6486498a1b4ac0e27e"
     private lazy var country = "us"
     
+    private let cacheManager = NewsCacheManager()
+    private let articals: [Article] = []
     
-    private lazy var defaultParameter : [String: String] = {
+    private lazy var defaultParameters : [String: String] = {
         var parameters: [String: String] = [:]
         parameters["apiKey"] = apiKey
         parameters["country"] = country
@@ -26,10 +28,17 @@ final class APIManager {
     
     func getNews(completion: @escaping (Result<[Article], Error>) -> Void) {
         
-        AF.request(baseURL, parameters: defaultParameter).validate().responseDecodable(of: NewsResponse.self) { response in
+        if !cacheManager.isCacheExpired(), let cachedArticles = cacheManager.loadNews() {
+            completion(.success(cachedArticles))
+            return
+        }
+        
+        AF.request(baseURL, parameters: defaultParameters).validate().responseDecodable(of: NewsResponse.self) { response in
             switch response.result {
             case .success(let value):
-                completion(.success(value.articles ?? []))
+                let articles = value.articles ?? []
+                self.cacheManager.saveNews(value.articles ?? [])
+                completion(.success(articles))
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -38,7 +47,7 @@ final class APIManager {
     
     func getFilteredNews(for query: String,category: String?, complation: @escaping(Result<[Article], Error>) -> Void){
         
-        var params = defaultParameter
+        var params = defaultParameters
         
         if !query.isEmpty{
             params["q"] = query
@@ -53,7 +62,6 @@ final class APIManager {
                 
             case .success(let value):
                 complation(.success(value.articles ?? []))
-                
             case .failure(let error):
                 print("getFilteredNews error: \(error)")
             }
