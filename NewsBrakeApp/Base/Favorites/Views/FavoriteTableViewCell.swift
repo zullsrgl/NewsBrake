@@ -26,7 +26,7 @@ class FavoriteTableViewCell: UITableViewCell {
     
     private let contentLabel: UILabel = {
         var label = UILabel()
-        label.textColor = .black
+        label.textColor = .label
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textAlignment = .left
