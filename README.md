@@ -6,7 +6,7 @@ Bu uygulama ile son dakika haberler görüntülenebilir, filtrelenebilir ve aran
 ## UYGULAMDA KULLANILAN KÜTÜPHANE VE YAPILAR
 - **Model View View Model**
 - Network Request için **Alamofire**
-- Offlice caching için **UserDefaults**
+- Offline caching işlemleri için **UserDefaults**
 - **Dark Mode**
 - **Navigation**
 - Image işelemleri için **KingFisher**
