@@ -3,7 +3,7 @@ Bu projemde newsapi.org web sitesinden edindiğim API kodunu kullanarak bir habe
 
 Bu uygulama ile son dakika haberler görüntülenebilir, filtrelenebilir ve aranabilir. İstenilen haberler sonrasında kolayca bulunmak üzere favorilere eklenebilir.
 
-## UYGULAMDA KULLANILAN KÜTÜPHANE VE YAPILAR
+## UYGULAMADA KULLANILAN KÜTÜPHANE VE YAPILAR
 - **Model View View Model**
 - Network Request için **Alamofire**
 - Offline caching işlemleri için **UserDefaults**
